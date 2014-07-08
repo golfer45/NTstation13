@@ -152,7 +152,27 @@
 	desc = "One third of a low-caliber handgun."
 	icon = 'icons/obj/buildingobject.dmi'
 	icon_state = "glock3"
-
+	
+/obj/item/weapon/gun/projectile/automatic/deagle/glock/attackby(var/obj/item/A as obj, mob/user as mob)
+	..()
+	if(istype(A, /obj/item/weapon/weldingtool))
+		if(magazine.caliber == "10")
+			user << "<span class='notice'>You bore a wider barrel![src].</span>"
+			if(magazine.ammo_count())
+				afterattack(user, user)	//you know the drill
+				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='danger'>[src] goes off in your face!</span>")
+				return
+			if(do_after(user, 30))
+				if(magazine.ammo_count())
+					user << "<span class='notice'>You can't modify it!</span>"
+					return
+				magazine.caliber = "45"
+				force = 13.0
+				desc = "A glock modified to shoot .45 caliber rounds."
+				user << "<span class='warning'>You bore out the barrel of [src]! Now it will fire .45 rounds.</span>"
+		else
+			user << "<span class='notice'>You cant unbore a barrel! [src].</span>"
+		
 /obj/item/weapon/silencer
 	name = "silencer"
 	desc = "A universal syndicate small-arms silencer."
