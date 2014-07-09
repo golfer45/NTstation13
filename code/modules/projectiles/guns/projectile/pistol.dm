@@ -102,6 +102,26 @@
 	force = 10.0
 	origin_tech = "combat=4;materials=3"
 	mag_type = /obj/item/ammo_box/magazine/m9mm
+	
+/obj/item/weapon/gun/projectile/automatic/deagle/glock/attackby(var/obj/item/A as obj, mob/user as mob)
+	..()
+	if(istype(A, /obj/item/weapon/surgicaldrill))
+		if((mag_type == /obj/item/ammo_box/magazine/m9mm))
+			user << "<span class='notice'>You start to bore a larger barrel.</span>"
+			if((magazine) && (magazine.ammo_count()))
+				afterattack(user, user)	//you know the drill
+				user.visible_message("<span class='danger'>[src] goes off!</span>", "<span class='danger'>[src] goes off in your face!</span>")
+				return
+			if(do_after(user, 30))
+				if((magazine) && (magazine.ammo_count()))
+					user << "<span class='notice'>You can't modify it!</span>"
+					return
+				mag_type = /obj/item/ammo_box/magazine/sm
+				force = 13.0
+				desc = "A glock modified to fire .45."
+				user << "<span class='warning'>You bore a larger barrel for [src]! It will now fire .45 rounds.</span>"
+		else
+			user << "<span class='notice'>You can't unbore a gun!</span>"	
 
 /obj/item/glockbarrel
 	name = "handgun barrel"
