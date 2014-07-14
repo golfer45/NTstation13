@@ -116,7 +116,7 @@
 				if((magazine) && (magazine.ammo_count()))
 					user << "<span class='notice'>You can't modify it!</span>"
 					return
-				mag_type = /obj/item/ammo_box/magazine/sm
+				mag_type = /obj/item/ammo_box/magazine/sm45
 				force = 13.0
 				desc = "A glock modified to fire .45."
 				user << "<span class='warning'>You bore a larger barrel for [src]! It will now fire .45 rounds.</span>"
